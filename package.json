@@ -1,0 +1,30 @@
+{
+  "name": "kiev-daily-bot",
+  "version": "1.0.0",
+  "description": "Kiev Daily",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "chatbot",
+    "nodejs",
+    "telegram",
+    "todo"
+  ],
+  "author": "Kiev Daily Bot Team",
+  "license": "MIT",
+  "dependencies": {
+    "json-parse-async": "^1.0.3",
+    "telegram-node-bot": "^4.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": ""
+}
