@@ -4,7 +4,7 @@ const Telegram = require('telegram-node-bot');
 var request = require('request');
 var http = require('http');
 var parse = require('parse-json-response');
-let yesterdayRates;
+let yesterdayRates  = "[{\"ccy\":\"EUR\",\"base_ccy\":\"UAH\",\"buy\":\"30.00000\",\"sale\":\"31.30000\"},{\"ccy\":\"RUR\",\"base_ccy\":\"UAH\",\"buy\":\"0.44500\",\"sale\":\"0.47000\"},{\"ccy\":\"USD\",\"base_ccy\":\"UAH\",\"buy\":\"26.40000\",\"sale\":\"26.60000\"},{\"ccy\":\"BTC\",\"base_ccy\":\"USD\",\"buy\":\"4122.9786\",\"sale\":\"4556.9764\"}]";
 let todayRates;
 let updateDate;
 let apiUrl = 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5';
@@ -46,12 +46,8 @@ class RatesController extends Telegram.TelegramBaseController {
 
     ratesHandler($) {
 
-        console.log(yesterdayRates);
-        console.log(todayRates);
-        console.log(updateDate);
-
         checkDate() ? $.sendMessage(makePrivatBankRateString(todayRates)) :
-           getRatesFromServer();
+            getRatesFromServer();
 
         /**
          * Checks on match today date and last update dater
@@ -74,10 +70,10 @@ class RatesController extends Telegram.TelegramBaseController {
                 uri: apiUrl,
             }, function (error, response, body) {
                 let parsedJson = JSON.parse(body);
-                yesterdayRates = todayRates;
+                // yesterdayRates = todayRates;
                 todayRates = parsedJson;
                 updateDate = new Date();
-                return  $.sendMessage(makePrivatBankRateString(parsedJson));
+                return $.sendMessage(makePrivatBankRateString(parsedJson));
             });
         }
 
@@ -86,17 +82,28 @@ class RatesController extends Telegram.TelegramBaseController {
          * @param json
          * @returns {string}
          */
-        function makePrivatBankRateString(json){
+        function makePrivatBankRateString(json) {
+
+            let kek = JSON.parse(yesterdayRates);
             let answerString = "";
             for (let i = 0; i < json.length; i++) {
                 let curr = json[i].ccy;
                 let buy = parseFloat(json[i].buy).toFixed(2);
                 let sale = parseFloat(json[i].sale).toFixed(2);
+                let lastBuy = parseFloat(kek[i].buy).toFixed(2);
+                let lastSale = parseFloat(kek[i].sale).toFixed(2);
                 let currCalc = (curr + ": " + buy + " / " + sale);
-                answerString += currCalc + "\n";
+                let buyDiff = parseFloat(lastBuy) - parseFloat(buy);
+                let saleDiff = parseFloat(lastSale) - parseFloat(sale);
+                let difBuyString = buyDiff > 0 ? "."+"\u00a0\u00a0\u00a0" + "\u2190" + buyDiff.toFixed(2) : "\u00a0\u00a0\u00a0\u2193" + buyDiff.toFixed(2);
+                let difSaleString = saleDiff > 0 ? "."+"\u00a0\u0020\u0020" + "\u2190" + saleDiff.toFixed(2) : "\u00a0\u00a0\u00a0\u2193" + saleDiff.toFixed(2);
+                let changeString = "" + difBuyString + " / " + difSaleString;
+                answerString += currCalc + "\n" + changeString + "\n";
             }
             return answerString.trim();
         }
+
+
     }
 
 
