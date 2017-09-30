@@ -11,10 +11,10 @@ const Telegram = require('telegram-node-bot'),
         storage: storage
     });
 
-const TodoController = require('./controllers/todo')
+const RatesController = require('./controllers/rates')
     , OtherwiseController = require('./controllers/otherwise');
 
-const todoCtrl = new TodoController();
+const todoCtrl = new RatesController();
 
 tg.router.when(new Telegram.TextCommand('/add', 'addCommand'), todoCtrl)
     .when(new Telegram.TextCommand('/get', 'getCommand'), todoCtrl)
