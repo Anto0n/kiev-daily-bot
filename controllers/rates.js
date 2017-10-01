@@ -87,6 +87,7 @@ class RatesController extends Telegram.TelegramBaseController {
             let kek = JSON.parse(yesterdayRates);
             let answerString = "";
             for (let i = 0; i < json.length; i++) {
+                let spaces = "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0";
                 let curr = json[i].ccy;
                 let buy = parseFloat(json[i].buy).toFixed(2);
                 let sale = parseFloat(json[i].sale).toFixed(2);
@@ -95,15 +96,13 @@ class RatesController extends Telegram.TelegramBaseController {
                 let currCalc = (curr + ": " + buy + " / " + sale);
                 let buyDiff = parseFloat(lastBuy) - parseFloat(buy);
                 let saleDiff = parseFloat(lastSale) - parseFloat(sale);
-                let difBuyString = buyDiff > 0 ? "."+"\u00a0\u00a0\u00a0" + "\u2190" + buyDiff.toFixed(2) : "\u00a0\u00a0\u00a0\u2193" + buyDiff.toFixed(2);
-                let difSaleString = saleDiff > 0 ? "."+"\u00a0\u0020\u0020" + "\u2190" + saleDiff.toFixed(2) : "\u00a0\u00a0\u00a0\u2193" + saleDiff.toFixed(2);
+                let difBuyString = buyDiff > 0 ? spaces + "\u2191" + buyDiff.toFixed(2) : spaces + "\u2193" + buyDiff.toFixed(2);
+                let difSaleString = saleDiff > 0 ? "\u2191" + saleDiff.toFixed(2) : "\u2193" + saleDiff.toFixed(2);
                 let changeString = "" + difBuyString + " / " + difSaleString;
                 answerString += currCalc + "\n" + changeString + "\n";
             }
             return answerString.trim();
         }
-
-
     }
 
 
