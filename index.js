@@ -12,9 +12,11 @@ const Telegram = require('telegram-node-bot'),
     });
 
 const RatesController = require('./controllers/rates')
-    , OtherwiseController = require('./controllers/otherwise');
+    , OtherwiseController = require('./controllers/otherwise')
+    , WeatherController = require('./controllers/weather');
 
 const todoCtrl = new RatesController();
+const weatherController = new WeatherController();
 
 const { Markup } = require('telegraf');
 
@@ -22,6 +24,8 @@ tg.router.when(new Telegram.TextCommand('/add', 'addCommand'), todoCtrl)
     .when(new Telegram.TextCommand('/get', 'getCommand'), todoCtrl)
     .when(new Telegram.TextCommand('/check', 'checkCommand'), todoCtrl)
     .when(new Telegram.TextCommand('/rates', 'ratesCommand'), todoCtrl)
+    .when(new Telegram.TextCommand('/weather', 'weatherCommand'), weatherController)
+    .when(new Telegram.TextCommand('/owmWeather', 'openWeatherMap'), weatherController)
     .otherwise(new OtherwiseController());
 
 tg.on('callback_query', ctx => {
