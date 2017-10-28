@@ -94,10 +94,10 @@ class RatesController extends Telegram.TelegramBaseController {
                 let lastBuy = parseFloat(kek[i].buy).toFixed(2);
                 let lastSale = parseFloat(kek[i].sale).toFixed(2);
                 let currCalc = (curr + ": " + buy + " / " + sale);
-                let buyDiff = parseFloat(lastBuy) - parseFloat(buy);
-                let saleDiff = parseFloat(lastSale) - parseFloat(sale);
-                let difBuyString = buyDiff > 0 ? spaces + "\u2191" + buyDiff.toFixed(2) : spaces + "\u2193" + buyDiff.toFixed(2);
-                let difSaleString = saleDiff > 0 ? "\u2191" + saleDiff.toFixed(2) : "\u2193" + saleDiff.toFixed(2);
+                let buyDiff = parseFloat(buy) - parseFloat(lastBuy);
+                let saleDiff = parseFloat(sale) - parseFloat(lastSale);
+                let difBuyString = buyDiff === 0.00 ? spaces + buyDiff.toFixed(2): buyDiff > 0 ? spaces + "\u2191" + buyDiff.toFixed(2) : spaces + "\u2193" + buyDiff.toFixed(2);
+                let difSaleString = saleDiff === 0.00 ? spaces + saleDiff.toFixed(2): saleDiff > 0 ? "\u2191" + saleDiff.toFixed(2) : "\u2193" + saleDiff.toFixed(2);
                 let changeString = "" + difBuyString + " / " + difSaleString;
                 answerString += currCalc + "\n" + changeString + "\n";
             }

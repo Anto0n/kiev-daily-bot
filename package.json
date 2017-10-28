@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "json-parse-async": "^1.0.3",
+    "telegraf": "^3.14.0",
     "telegram-node-bot": "^4.0.3"
   },
   "repository": {

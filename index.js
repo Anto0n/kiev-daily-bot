@@ -16,11 +16,22 @@ const RatesController = require('./controllers/rates')
 
 const todoCtrl = new RatesController();
 
+const { Markup } = require('telegraf');
+
 tg.router.when(new Telegram.TextCommand('/add', 'addCommand'), todoCtrl)
     .when(new Telegram.TextCommand('/get', 'getCommand'), todoCtrl)
     .when(new Telegram.TextCommand('/check', 'checkCommand'), todoCtrl)
     .when(new Telegram.TextCommand('/rates', 'ratesCommand'), todoCtrl)
     .otherwise(new OtherwiseController());
+
+tg.on('callback_query', ctx => {
+    const subreddit = ctx.update.callback_query.data;
+    const userId = ctx.update.callback_query.from.id;
+    Markup.inlineKeyboard([
+        Markup.callbackButton('➡️ Next', subreddit),
+    ]);
+    ctx.answerCallbackQuery();
+});
 
 function exitHandler(exitCode) {
     storage.flush();
