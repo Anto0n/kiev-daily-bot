@@ -28,14 +28,14 @@ tg.router.when(new Telegram.TextCommand('/add', 'addCommand'), todoCtrl)
     .when(new Telegram.TextCommand('/owmWeather', 'openWeatherMap'), weatherController)
     .otherwise(new OtherwiseController());
 
-tg.on('callback_query', ctx => {
-    const subreddit = ctx.update.callback_query.data;
-    const userId = ctx.update.callback_query.from.id;
-    Markup.inlineKeyboard([
-        Markup.callbackButton('➡️ Next', subreddit),
-    ]);
-    ctx.answerCallbackQuery();
-});
+// tg.on('callback_query', ctx => {
+//     const subreddit = ctx.update.callback_query.data;
+//     const userId = ctx.update.callback_query.from.id;node-lambda run
+//     Markup.inlineKeyboard([
+//         Markup.callbackButton('➡️ Next', subreddit),
+//     ]);
+//     ctx.answerCallbackQuery();
+// });
 
 function exitHandler(exitCode) {
     storage.flush();

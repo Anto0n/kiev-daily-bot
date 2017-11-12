@@ -67,8 +67,8 @@ class WeatherController extends Telegram.TelegramBaseController {
             let maxT = forecastItem.main.temp_max;
 
             let responseString = date + "\n"
-                + "high: " + Math.ceil(minT) + "C  "
-                + "low: " + Math.ceil(maxT) + "C  \n"
+                + "high: " + Math.ceil(maxT) + "C  "
+                + "low: " + Math.ceil(minT) + "C  \n"
                 + forecastItem.weather[0].main;
             $.sendMessage(responseString);
         });

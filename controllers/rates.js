@@ -46,6 +46,10 @@ class RatesController extends Telegram.TelegramBaseController {
 
     ratesHandler($) {
 
+        console.log($.getUserSession().then(data=>{
+            console.log($)
+        }));
+
         checkDate() ? $.sendMessage(makePrivatBankRateString(todayRates)) :
             getRatesFromServer();
 
